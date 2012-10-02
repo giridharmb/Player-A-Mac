@@ -9,20 +9,23 @@ public class ProcessMonitor implements Runnable {
 		// TODO Auto-generated method stub
 			
 		while(true) {
-			System.out.println(">> ProcessMonitor >> CommandRunnerTest.retCode = " + CommandRunnerTest.retCode);
+			// System.out.println(">> ProcessMonitor >> CommandRunnerTest.retCode = " + CommandRunnerTest.retCode);
 			/*
 			if(CommandRunnerTest.retCode == -1) {
 				break;
 			}
 			*/
+			
+			//System.out.println("# Volume fetched via apple script => " + MainWindow.getVolume());
+			
 			if(CommandRunnerTest.retCode == 0 )
 			{
-				System.out.println(">> ProcessMonitor >>retCode = 0 !");
+				//System.out.println(">> ProcessMonitor >>retCode = 0 !");
 				
 				if(MainWindow.keepPlaying)
 				{
-					System.out.println(">> ProcessMonitor >> keepPlaying = True");
-					System.out.println("$$ Exit Code == 0 ! Doing a replay() ! ...");
+					//System.out.println(">> ProcessMonitor >> keepPlaying = True");
+					//System.out.println("$$ Exit Code == 0 ! Doing a replay() ! ...");
 					
 					// TODO Auto-generated method stub
 					if(MainWindow.allSongsLinkedList.size() == 0) {
@@ -32,6 +35,7 @@ public class ProcessMonitor implements Runnable {
 					Random rand = new Random();
 					int totalSizeOfList = MainWindow.allSongsLinkedList.size();
 					int randomIndex = rand.nextInt(totalSizeOfList);
+					
 					System.out.println("Random index => " + randomIndex);
 								
 					

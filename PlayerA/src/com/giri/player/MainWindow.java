@@ -110,19 +110,21 @@ public class MainWindow extends JFrame implements MainPlayer {
 		_setvolume(level);
 	}
 	
-	private synchronized void setVolume(int level) {
+	public synchronized static void setVolume(int level) {
 		if(level>=0 && level<=100) {
 			String volume = Integer.toString(level);
-			String cmd[] = { "osascript", "/bin/setvolume.scpt" , volume };
-			new Thread(new CommandRunnerTest(cmd),"Command Runner").start();
-			//CR = new CommandRunnerTest(cmd);
-			//CR.run();
+			String cmd[] = { "osascript", "/bin/getsetvolume.scpt" ,"SET", volume };
+			try {
+				Process volProc = Runtime.getRuntime().exec(cmd);
+				volProc.waitFor();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private synchronized void playFile(File f) {
-		
-		
 		
 		String pathToFile = f.getAbsolutePath();
 		String playCommand = "PlayFile " + pathToFile;
@@ -130,8 +132,30 @@ public class MainWindow extends JFrame implements MainPlayer {
 		new Thread(new CommandRunnerTest(playCmd),"Command Runner").start();
 		//CR.setCmdToRun(playCmd);
 		//CR.EXECUTE();
-			
+		
+	}
 	
+	public static String getVolume()  {
+		String ret = null;
+		String line = null;
+		String cmd[] = { "osascript", "/bin/getsetvolume.scpt" ,"GET" };
+		try {
+			Process volProc = Runtime.getRuntime().exec(cmd);
+			volProc.waitFor();
+			BufferedReader in = new BufferedReader(new InputStreamReader(volProc.getInputStream()) );
+		    while ((line = in.readLine()) != null)
+		    {
+		    	System.out.println(line);
+		    	ret = line.toString();
+		    	break;
+		    }
+		    
+		    in.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret; 
 	}
 	
 	/**
@@ -139,15 +163,12 @@ public class MainWindow extends JFrame implements MainPlayer {
 	 */
 	public static void main(String[] args) {
 		
-		// set system properties here that affect Quaqua
-        // for example the default layout policy for tabbed
-        // panes:
         System.setProperty("Quaqua.tabLayoutPolicy","wrap");
-        // set the Quaqua Look and Feel in the UIManager
+        
         try { 
              UIManager.setLookAndFeel(ch.randelshofer.quaqua.QuaquaManager.getLookAndFeel());
         } catch (Exception e) {
-            // take an appropriate action here
+        
             e.printStackTrace();
         }
         
@@ -372,6 +393,9 @@ public class MainWindow extends JFrame implements MainPlayer {
 		chckbxNewCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxNewCheckBox.setBounds(601, 422, 117, 23);
 		contentPane.add(chckbxNewCheckBox);
+		
+		scrollBar.setValue(Integer.parseInt(getVolume()));
+		textField.setText(getVolume());
 	}
 
 	@Override

@@ -11,4 +11,7 @@ public class Constants {
 	public static String PLAYINDEX = "COMMAND_PLAYINDEX@";
 	public static String LOOP = "COMMAND_LOOP";
 	public static String DONTLOOP = "COMMAND_DONTLOOP";
+	public static String GETVOLUME = "COMMAND_GETVOLUME";
+	public static String SETVOLUME = "COMMAND_SETVOLUME@";
+	
 }

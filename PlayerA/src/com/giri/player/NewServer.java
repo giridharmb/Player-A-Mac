@@ -86,8 +86,29 @@ public class NewServer extends Thread {
                 }
                 else if(message.getMessage().contains(Constants.LOOP)) {
                 	MainWindow.chckbxNewCheckBox.setSelected(true);
+                	MainWindow.keepPlaying = true;
+                	out = new ObjectOutputStream(socket.getOutputStream());
+                	out.writeObject((Object)null);
+                	out.flush();
                 } else if(message.getMessage().contains(Constants.DONTLOOP)) {
                 	MainWindow.chckbxNewCheckBox.setSelected(false);
+                	MainWindow.keepPlaying = false;
+                	out = new ObjectOutputStream(socket.getOutputStream());
+                	out.writeObject((Object)null);
+                	out.flush();
+                } else if(message.getMessage().contains(Constants.GETVOLUME)) {
+                	String strVolume = MainWindow.getVolume();
+                	int vol = Integer.parseInt(strVolume);
+                	out = new ObjectOutputStream(socket.getOutputStream());
+                	out.writeObject((Object) vol);
+                	out.flush();
+                } else if(message.getMessage().contains(Constants.SETVOLUME)) {
+                	String[] cmd = message.getMessage().split("@");
+                	String volumeStr = cmd[1];
+                	MainWindow.setVolume(Integer.parseInt(volumeStr));
+                	out = new ObjectOutputStream(socket.getOutputStream());
+                	out.writeObject((Object)null);
+                	out.flush();
                 }
             }
             
