@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.io.*;
 
 public class Client {
+	/*
 	public static void main(String argv[])
 	{
 		try
@@ -59,4 +60,5 @@ public class Client {
 			System.out.println(e2); // unknown type of response object
 		}
 	}
+	*/
 }

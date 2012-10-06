@@ -216,12 +216,15 @@ public class MainWindow extends JFrame implements MainPlayer {
 			//CR.setCmdToRun(cmd);
 			//CR.EXECUTE();
 			new Thread(new CommandRunnerTest(cmd),"Command Runner").start();
+			
+			/*
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 			
 		}
 	
@@ -447,6 +450,17 @@ public class MainWindow extends JFrame implements MainPlayer {
 			return;
 		}
 		
+		String[] killCmd = {"killall" ,"-9", "PlayFile"};
+		
+		try 
+		{
+			Process pKill = Runtime.getRuntime().exec(killCmd);
+			pKill.waitFor();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		server_thread.StopServer();
 		if(CurrentPlayerState != PlayerState.STOPPED) {
 			//CR.stopExecution();
 			CurrentPlayerState = PlayerState.STOPPED;
@@ -483,7 +497,7 @@ public class MainWindow extends JFrame implements MainPlayer {
 	}
 
 	@Override
-	public synchronized void _playrandom() {
+	public void _playrandom() {
 		System.out.println("_playrandom() : Request to play a random song...");
 		// TODO Auto-generated method stub
 		if(list.getItemCount() == 0) {

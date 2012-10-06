@@ -7,6 +7,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
+import java.util.Random;
 
 /**
  *
@@ -106,6 +107,19 @@ public class NewServer extends Thread {
                 	String[] cmd = message.getMessage().split("@");
                 	String volumeStr = cmd[1];
                 	MainWindow.setVolume(Integer.parseInt(volumeStr));
+                	out = new ObjectOutputStream(socket.getOutputStream());
+                	out.writeObject((Object)null);
+                	out.flush();
+                } else if(message.getMessage().contains(Constants.PLAYRANDOM)) {
+                	
+                	int size = MainWindow.allSongsLinkedList.size();
+                	
+                	if(size>0) {
+                		Random rand = new Random();
+                		int randomIndex = rand.nextInt(size);
+                		MainWindow.PLAY(randomIndex);
+                	}
+
                 	out = new ObjectOutputStream(socket.getOutputStream());
                 	out.writeObject((Object)null);
                 	out.flush();
